@@ -4,11 +4,18 @@ let card = document.getElementsByClassName('card');
 let users = [];
 
 
+/*
+Fetches the API from randomuser.me
+*/
 fetch('https://randomuser.me/api/?results=12&nat=us')
   .then(res => res.json())
   .then(data => getUsers(data))
   .then(data => randomCard(data))
   .catch(error => console.log('Error 404', error))
+
+/*
+Function which adds 12 random users and their displays.
+*/
 
 function getUsers(data) {
   users = data.results;
@@ -35,6 +42,9 @@ function getUsers(data) {
 
 }
 
+/*
+Function which adds the modal window.
+*/
 
 const div = document.createElement('div');
 div.className = "modal-container"
@@ -55,7 +65,11 @@ function modalWindow(i) {
    const phoneFormat = phone.replace(/\D+/g, '')
       .replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
   
-   const modalHTML = `
+  /*
+  Generates HTML for modal window.
+  */
+  
+  const modalHTML = `
           <div class="modal">
             <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
             <div class="modal-info-container">
@@ -75,6 +89,10 @@ function modalWindow(i) {
         </div>
           `;
   modalContainer.innerHTML = modalHTML;
+  
+  /*
+  Buttons for closing, selecting next and previous for modal window.
+  */
   
   
   $('#modal-close-btn').click(function() {
@@ -97,6 +115,10 @@ function modalWindow(i) {
   
 }
 
+/*
+Function which checks the next and previous buttons.
+*/
+
 
 function userNumber(i) {
   if (i <= 0) {
@@ -106,6 +128,10 @@ function userNumber(i) {
   }
 
 }
+
+/*
+Add Event Listener for the randomCard data.
+*/
 
 
 function randomCard() {
@@ -117,4 +143,40 @@ function randomCard() {
   
   }
 }
+
+
+/*
+Search Bar
+*/
+
+const search = document.querySelector('.search-container');
+const userSearch = document.createElement('form');
+
+search.appendChild(userSearch);
+search.innerHTML = `
+    <form action="#" method="get">
+                   <input type="search" id="search-input" class="search-input" placeholder="Search...">
+                   <input type="submit" value="&#x1F50D;" id="search-submit" class="search-submit">
+           </form>
+`;
+
+
+const searchSubmit = document.querySelector('#search-submit');
+let input = document.querySelector('#search-input');
+input.addEventListener('keyup', search_user);
+searchSubmit.addEventListener('click', search_user);
+
+
+function search_user(event) {
+  for (i = 0; i < card.length; i++) {
+    if (!name.includes(input.value.toLowerCase())) {
+      event.preventDefault();
+      card[i].style.display = "none";
+    } else {
+      card[i].style.display = "flex";
+    }
+  }
+
+}
+
 
