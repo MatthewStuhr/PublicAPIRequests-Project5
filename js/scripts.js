@@ -34,3 +34,87 @@ function getUsers(data) {
   });
 
 }
+
+
+const div = document.createElement('div');
+div.className = "modal-container"
+body.append(div);
+const modalContainer = document.querySelector('.modal-container');
+modalContainer.style.display = 'none';
+
+
+function modalWindow(i) {
+
+   const user = users[i];
+   const birthdayDay = user.dob.date.substring(8, 10);
+   const birthdayMonth = user.dob.date.substring(5, 7);
+   const birthdayYear = user.dob.date.substring(0, 4);
+   const birthday = `Birthday: ${birthdayMonth}/${birthdayDay}/${birthdayYear}`;
+  
+   const phone = user.phone;
+   const phoneFormat = phone.replace(/\D+/g, '')
+      .replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
+  
+   const modalHTML = `
+          <div class="modal">
+            <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
+            <div class="modal-info-container">
+                <img class="modal-img" src="${user.picture.large}" alt="profile picture">
+                <h3 id="name" class="modal-name cap">${user.name.first} ${user.name.last}</h3>
+                <p class="modal-text">${user.email}</p>
+                <p class="modal-text cap">${user.location.city}</p>
+                <hr>
+                <p class="modal-text">${phoneFormat}</p>
+                <p class="modal-text">${user.location.street.number} ${user.location.street.name}. ${user.location.city}, ${user.location.state} ${user.location.postcode}</p>
+                <p class="modal-text">${birthday}</p>
+            </div>
+            <div class="modal-btn-container">
+                <button type="button" id="modal-prev" class="modal-prev btn">Prev</button>
+                <button type="button" id="modal-next" class="modal-next btn">Next</button>
+            </div>
+        </div>
+          `;
+  modalContainer.innerHTML = modalHTML;
+  
+  
+  $('#modal-close-btn').click(function() {
+    $('.modal-container').hide();
+  })
+  
+  
+  $('button#modal-next').click(function() {
+    modalWindow(i + 1);
+    $('.modal-container').show()
+  
+  })
+  
+  $('button#modal-prev').click(function() {
+    modalWindow(i - 1);
+    $('.modal-container').show()
+  
+  })
+  userNumber(i);
+  
+}
+
+
+function userNumber(i) {
+  if (i <= 0) {
+    $('button#modal-prev').hide();
+  } else if (i >= 11) {
+    $('button#modal-next').hide();
+  }
+
+}
+
+
+function randomCard() {
+  for (let i = 0; i < card.length; i++) {
+    card[i].addEventListener('click', function() {
+      modalWindow(i);
+      $('.modal-container').show();
+    })
+  
+  }
+}
+
