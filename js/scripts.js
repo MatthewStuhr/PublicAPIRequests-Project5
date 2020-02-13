@@ -145,38 +145,3 @@ function randomCard() {
 }
 
 
-/*
-Search Bar
-*/
-
-const search = document.querySelector('.search-container');
-const userSearch = document.createElement('form');
-
-search.appendChild(userSearch);
-search.innerHTML = `
-    <form action="#" method="get">
-                   <input type="search" id="search-input" class="search-input" placeholder="Search...">
-                   <input type="submit" value="&#x1F50D;" id="search-submit" class="search-submit">
-           </form>
-`;
-
-
-const searchSubmit = document.querySelector('#search-submit');
-let input = document.querySelector('#search-input');
-input.addEventListener('keyup', search_user);
-searchSubmit.addEventListener('click', search_user);
-
-
-function search_user(event) {
-  for (i = 0; i < card.length; i++) {
-    if (!name.includes(input.value.toLowerCase())) {
-      event.preventDefault();
-      card[i].style.display = "none";
-    } else {
-      card[i].style.display = "flex";
-    }
-  }
-
-}
-
-
